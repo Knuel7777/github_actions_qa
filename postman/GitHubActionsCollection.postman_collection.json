@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "0da0f0e0-4d8c-4723-9476-cf748652c0e4",
+		"name": "GitHubActionsCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6280753",
+		"_collection_link": "https://qa7777-4628.postman.co/workspace/Universidad~58aadaf8-2a66-4637-9774-0a0f0254efdb/collection/6280753-0da0f0e0-4d8c-4723-9476-cf748652c0e4?action=share&source=collection_link&creator=6280753"
+	},
+	"item": [
+		{
+			"name": "GetAllPosts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// TEST 1: Verificar que la respuesta es un array",
+							"pm.test(\"La respuesta es un array\", function () {",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");",
+							"});",
+							"",
+							"// TEST 2: Verificar que el array tiene al menos 3 elementos",
+							"pm.test(\"El array tiene al menos 3 elementos\", function () {",
+							"    pm.expect(pm.response.json().length).to.be.at.least(3);",
+							"});",
+							"",
+							"// TEST 3: Verificar que cada objeto tiene las claves userId, id, title y body",
+							"pm.test(\"Cada item tiene userId, id, title y body\", function () {",
+							"    const data = pm.response.json();",
+							"    data.forEach(item => {",
+							"        pm.expect(item).to.have.property(\"userId\");",
+							"        pm.expect(item).to.have.property(\"id\");",
+							"        pm.expect(item).to.have.property(\"title\");",
+							"        pm.expect(item).to.have.property(\"body\");",
+							"    });",
+							"});",
+							"",
+							"// TEST 4: Verificar que todos los userId sean números",
+							"pm.test(\"Todos los userId son números\", function () {",
+							"    const data = pm.response.json();",
+							"    data.forEach(item => {",
+							"        pm.expect(item.userId).to.be.a(\"number\");",
+							"    });",
+							"});",
+							"",
+							"// TEST 5: Verificar que los títulos no están vacíos",
+							"pm.test(\"Los títulos no están vacíos\", function () {",
+							"    const data = pm.response.json();",
+							"    data.forEach(item => {",
+							"        pm.expect(item.title).to.not.be.empty;",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url_Base}}/posts",
+					"host": [
+						"{{Url_Base}}"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
